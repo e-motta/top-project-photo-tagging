@@ -11,11 +11,11 @@ const Header = () => {
           <div>
             <Link to="/">
               <div
-                className="rounded-md bg-white p-2 px-4 font-['Optima']
-                text-4xl font-extrabold uppercase transition-all duration-300 
-                hover:scale-105"
+                className="flex gap-2 rounded-md border-4 border-blue-500 bg-white p-2
+                px-4 font-['Optima'] text-4xl font-extrabold uppercase 
+                transition-all duration-300 hover:scale-105"
               >
-                <span className="text-blue-500">Where's</span>{' '}
+                <span className="text-blue-500">Where's</span>
                 <span className="text-red-600">Wally?</span>
               </div>
             </Link>
