@@ -2,45 +2,48 @@
 
 // Levels
 
-export interface Image {
+Image {
   id: string;
   url_large: string;
   url_small: string;
 }
 
-export interface Character {
+Character {
   id: string;
   name: string;
+  image: {
+    url: string;
+  };
   position: [number, number];
 }
 
-export interface Level {
+Level {
   id: string;
   name: string;
   images: Image[];
   characters: Character[];
 }
 
-export interface Levels {
+Levels {
   levels: Level[];
 }
 
 // High scores table
 
-export interface Score {
+Score {
   id: string;
   name: string;
   start_time: Date;
   end_time: Date;
 }
 
-export interface ScoresTable {
+ScoresTable {
   scores: Score[];
 }
 
 // Local - Level //
 
-export interface LevelDetails {
+LevelDetails {
   foundCharactersIds: string[];
   startTime: Date;
   endTime: Date | null;

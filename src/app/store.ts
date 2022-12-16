@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { levelsApiSlice } from '../features/levels/levels-slice';
 
 export const store = configureStore({
   reducer: {
-    // counter: counterReducer,
+    [levelsApiSlice.reducerPath]: levelsApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware();
-    // .concat(apiSlice.middleware)
+    return getDefaultMiddleware().concat(levelsApiSlice.middleware);
   },
 });
 

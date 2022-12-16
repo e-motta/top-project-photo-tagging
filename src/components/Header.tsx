@@ -1,25 +1,32 @@
+import { Link } from 'react-router-dom';
+
 const Header = () => {
   return (
-    <header className="flex items-center justify-between bg-red-600 text-white">
-      <div className="flex items-center gap-5 p-5 pl-10">
-        <div className="rounded-t-full bg-white">
-          <img
-            // todo: change img src to backend
-            src="../../resources/wally-head.png"
-            alt="wally's face"
-            className="h-20 object-scale-down"
-          />
+    <header
+      id="header"
+      className="min-w-[500px] bg-red-600 px-4 py-2 text-white"
+    >
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-5 py-7">
+          <div>
+            <Link to="/">
+              <div
+                className=" text-4xl font-bold transition-all duration-300 
+                hover:scale-105"
+              >
+                Where's Wally?
+              </div>
+            </Link>
+          </div>
         </div>
         <div>
-          <button type="button" className="text-4xl font-bold">
-            Where's Wally?
+          <button
+            type="button"
+            className="text-2xl transition-all duration-300 hover:scale-105"
+          >
+            High scores
           </button>
         </div>
-      </div>
-      <div className="p-5 pr-10">
-        <button type="button" className="text-2xl">
-          High scores
-        </button>
       </div>
     </header>
   );

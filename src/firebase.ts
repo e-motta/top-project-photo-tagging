@@ -13,9 +13,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
-export { useCollectionData } from 'react-firebase-hooks/firestore';
-
-initializeApp({
+const app = initializeApp({
   apiKey: 'AIzaSyAs0DKIDTOvItk5kZrCdOEWT2kgwgKFl3c',
   authDomain: 'top-project-photo-tagging.firebaseapp.com',
   projectId: 'top-project-photo-tagging',
@@ -25,4 +23,4 @@ initializeApp({
   measurementId: 'G-B2S5CCM381',
 });
 
-export const firestore = getFirestore();
+export const firestore = getFirestore(app);

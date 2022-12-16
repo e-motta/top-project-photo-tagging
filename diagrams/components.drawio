@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="iECSN86aFS-XDSPFpjlw" name="Page-1">
-        <mxGraphModel dx="1059" dy="533" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="423" dy="464" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -19,9 +19,11 @@
                 <mxCell id="11" value="&lt;font style=&quot;font-size: 14px&quot; color=&quot;#ffffff&quot;&gt;See high scores&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="690" y="15" width="130" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;" vertex="1" parent="1">
-                    <mxGeometry y="60" width="850" height="430" as="geometry"/>
-                </mxCell>
+                <object label="" hedietLinkedDataV1_path="" id="12">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#FFFFFF;" vertex="1" parent="1">
+                        <mxGeometry y="60" width="850" height="430" as="geometry"/>
+                    </mxCell>
+                </object>
                 <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry y="510" width="850" height="490" as="geometry"/>
                 </mxCell>

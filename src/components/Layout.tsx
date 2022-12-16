@@ -1,11 +1,15 @@
+import { Outlet } from 'react-router-dom';
+
 import Header from './Header';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   return (
     <>
       <Header />
       <main>
-        <div>{children}</div>
+        <div className="overflow-auto">
+          <Outlet />
+        </div>
       </main>
     </>
   );
