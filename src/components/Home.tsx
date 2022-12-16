@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useFetchLevelsQuery } from '../features/levels/levels-slice';
 import SelectLevel from '../features/levels/LevelSelectButton';
-import Spinner from './spinner';
+import Spinner from './Spinner';
 
 const Home = () => {
   const { data, isLoading, isError, error } = useFetchLevelsQuery();

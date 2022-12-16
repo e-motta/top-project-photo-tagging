@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Spinner from '../../components/spinner';
 import { CharactersPosition } from '../../types';
 
 import {

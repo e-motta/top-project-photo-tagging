@@ -2,13 +2,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 
 import { firestore } from '../../firebase';
-import {
-  Character,
-  Characters,
-  CharactersPosition,
-  Level,
-  Levels,
-} from '../../types';
+import { Character, Characters, Level, Levels } from '../../types';
 
 export const levelsApiSlice = createApi({
   reducerPath: 'levels',
