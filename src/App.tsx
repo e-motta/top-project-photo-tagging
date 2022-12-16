@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from './components/Home';
 import Layout from './components/Layout';
-import Level from './features/levels/Level';
+import Level from './features/levels/Level/Level';
 
 function App() {
   return (

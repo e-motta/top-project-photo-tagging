@@ -1,7 +1,7 @@
 import {
   useFetchCharactersQuery,
   useFetchSingleLevelQuery,
-} from '../features/levels/levels-slice';
+} from './levels-slice';
 
 const GuessButton = ({
   levelId,
