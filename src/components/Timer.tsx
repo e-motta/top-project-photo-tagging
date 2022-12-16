@@ -2,19 +2,13 @@ import { useEffect, useState } from 'react';
 
 const Timer = () => {
   const [time, setTime] = useState(0);
-  const [running, setRunning] = useState(true);
 
   useEffect(() => {
-    let interval: any;
-    if (running) {
-      interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
-    } else {
-      clearInterval(interval);
-    }
+    const interval = setInterval(() => {
+      setTime((prevTime) => prevTime + 10);
+    }, 10);
     return () => clearInterval(interval);
-  }, [running]);
+  }, []);
 
   return (
     <div
