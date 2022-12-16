@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useFetchLevelsQuery } from '../features/levels/levels-slice';
-import LevelSelectButton from '../features/levels/LevelSelectButton';
+import SelectLevel from '../features/levels/LevelSelectButton';
 import Spinner from './spinner';
 
 const Home = () => {
@@ -44,7 +44,7 @@ const Home = () => {
           <div className="flex flex-col gap-10 px-0 md:px-10">
             {data?.map((level) => (
               <Link to={`level/${level.id}`} key={level.id}>
-                <LevelSelectButton
+                <SelectLevel
                   levelName={level.name}
                   levelImg={level.images.url_small}
                 />

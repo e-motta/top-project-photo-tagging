@@ -72,7 +72,14 @@ const Level = () => {
     return <p>Server error. Try again later.</p>;
   }
 
-  if (isSuccess && !data) return <Navigate to="/" replace />;
+  if (
+    isSuccess &&
+    // check if response is empty (id is not in db)
+    data &&
+    Object.keys(data).length === 0 &&
+    Object.getPrototypeOf(data) === Object.prototype
+  )
+    return <Navigate to="/" replace />;
 
   return (
     <>

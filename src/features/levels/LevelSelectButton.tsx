@@ -1,4 +1,4 @@
-const LevelSelectButton = ({
+const SelectLevel = ({
   levelName,
   levelImg,
 }: {
@@ -31,4 +31,4 @@ const LevelSelectButton = ({
   );
 };
 
-export default LevelSelectButton;
+export default SelectLevel;
