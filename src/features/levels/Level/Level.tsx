@@ -51,7 +51,7 @@ const Level = () => {
       setShowGuessButton(false);
     } else {
       setGuessButtonStyle({
-        display: 'hidden',
+        display: 'none',
       });
       setShowGuessButton(true);
     }
@@ -68,6 +68,7 @@ const Level = () => {
   const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     setGuessButton(e);
     setClickPosition(e);
+
     if (allowScroll) {
       setAllowScroll(false);
       const x = window.scrollX;
@@ -90,6 +91,24 @@ const Level = () => {
       setTimeout(() => setShowHint(false), 8000);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!allowScroll && !showHint) {
+        setTimeout(() => {
+          setHintMessage(
+            'Select a character or click anywhere in the image to resume scrolling'
+          );
+          setShowHint(true);
+        }, 0);
+        setTimeout(() => setShowHint(false), 5000);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [showGuessButton, showHint]);
 
   if (isLoading)
     return (
