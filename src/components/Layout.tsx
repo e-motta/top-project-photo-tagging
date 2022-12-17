@@ -7,7 +7,7 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        <div className="min-w-[400px] overflow-auto">
+        <div className="min-w-[400px]">
           <Outlet />
         </div>
       </main>

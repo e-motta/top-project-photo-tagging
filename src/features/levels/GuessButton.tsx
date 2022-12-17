@@ -63,7 +63,7 @@ const GuessButton = ({
   }
 
   return reverse ? (
-    <div className="absolute w-[280px]" style={style}>
+    <div className="absolute w-[0]" style={style}>
       <div className="relative">
         <div className="absolute -left-[232px] flex flex-row-reverse gap-4">
           <div className="h-12 w-12 border-4 border-dashed border-black"></div>

@@ -14,9 +14,11 @@ const Level = () => {
 
   const levelImage = useRef<HTMLImageElement>(null);
 
-  const [reverseGuessButton, setReverseGuessButton] = useState(true);
   const [hintMessage, setHintMessage] = useState('');
   const [showHint, setShowHint] = useState(false);
+  const [allowScroll, setAllowScroll] = useState(true);
+  const [showGuessButton, setShowGuessButton] = useState(true);
+  const [reverseGuessButton, setReverseGuessButton] = useState(true);
   const [guessButtonStyle, setGuessButtonStyle] = useState<React.CSSProperties>(
     {
       left: '-9999px',
@@ -32,18 +34,26 @@ const Level = () => {
   const setGuessButton = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
-    const x = e.clientX + window.scrollX - 24;
-    const y = e.clientY + window.scrollY - 24;
+    if (showGuessButton) {
+      const x = e.clientX + window.scrollX - 24;
+      const y = e.clientY + window.scrollY - 24;
 
-    setGuessButtonStyle({
-      left: `${x}px`,
-      top: `${y}px`,
-    });
+      setGuessButtonStyle({
+        left: `${x}px`,
+        top: `${y}px`,
+      });
 
-    if (window.innerWidth - x < 400) {
-      setReverseGuessButton(true);
+      if (window.innerWidth - x < 400) {
+        setReverseGuessButton(true);
+      } else {
+        setReverseGuessButton(false);
+      }
+      setShowGuessButton(false);
     } else {
-      setReverseGuessButton(false);
+      setGuessButtonStyle({
+        display: 'hidden',
+      });
+      setShowGuessButton(true);
     }
   };
 
@@ -58,6 +68,15 @@ const Level = () => {
   const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     setGuessButton(e);
     setClickPosition(e);
+    if (allowScroll) {
+      setAllowScroll(false);
+      const x = window.scrollX;
+      const y = window.scrollY;
+      window.onscroll = () => window.scrollTo(x, y);
+    } else {
+      setAllowScroll(true);
+      window.onscroll = null;
+    }
   };
 
   useEffect(() => {
@@ -95,21 +114,24 @@ const Level = () => {
 
   return (
     <>
-      <img
-        ref={levelImage}
-        src={data?.images.url_big}
-        alt={data?.name}
-        className="relative min-w-[1750px] cursor-[crosshair]"
-        onClick={onMouseClick}
-      />
-      <Timer />
+      <div className={allowScroll ? 'overflow-auto' : 'overflow-hidden'}>
+        <img
+          ref={levelImage}
+          src={data?.images.url_big}
+          alt={data?.name}
+          className="relative min-w-[1750px] cursor-[crosshair]"
+          onClick={onMouseClick}
+        />
+        <Timer />
+
+        <LevelScore levelId={levelId} />
+        <Hint show={showHint} message={hintMessage} />
+      </div>
       <GuessButton
         levelId={levelId}
         style={guessButtonStyle}
         reverse={reverseGuessButton}
       />
-      <LevelScore levelId={levelId} />
-      <Hint show={showHint} message={hintMessage} />
     </>
   );
 };
