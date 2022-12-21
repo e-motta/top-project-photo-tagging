@@ -31,7 +31,7 @@ const Level = () => {
   const { data, isLoading, isSuccess, isError, error } =
     useFetchSingleLevelQuery(levelId);
 
-  const setGuessButton = (
+  const handleGuessButton = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     if (showGuessButton) {
@@ -57,7 +57,7 @@ const Level = () => {
     }
   };
 
-  const setClickPosition = (
+  const handleClickPosition = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ): Position => {
     const x = e.clientX;
@@ -65,10 +65,7 @@ const Level = () => {
     return [x, y];
   };
 
-  const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    setGuessButton(e);
-    setClickPosition(e);
-
+  const handleScroll = () => {
     if (allowScroll) {
       setAllowScroll(false);
       const x = window.scrollX;
@@ -80,11 +77,22 @@ const Level = () => {
     }
   };
 
+  const handlePlay = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const x = e.screenX;
+    const y = e.screenY;
+  };
+
+  const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    handleGuessButton(e);
+    handleClickPosition(e);
+    handleScroll();
+  };
+
   useEffect(() => {
     if (levelImage.current && levelImage.current.width > window.innerWidth) {
       setTimeout(() => {
         setHintMessage(
-          'Hint: you can scroll down and to the right to see the rest of the image'
+          'You can scroll down and to the right to see the rest of the image'
         );
         setShowHint(true);
       }, 3000);
@@ -143,13 +151,21 @@ const Level = () => {
         />
         <Timer />
 
-        <LevelScore levelId={levelId} />
+        <LevelScore />
         <Hint show={showHint} message={hintMessage} />
       </div>
       <GuessButton
         levelId={levelId}
         style={guessButtonStyle}
         reverse={reverseGuessButton}
+        hideGuessButton={() => {
+          console.log({ showGuessButton });
+          setShowGuessButton(true);
+          setAllowScroll(true);
+          setGuessButtonStyle({
+            display: 'none',
+          });
+        }}
       />
     </>
   );

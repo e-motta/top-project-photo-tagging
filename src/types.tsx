@@ -17,7 +17,7 @@ export interface Character {
   id: string;
   name: string;
   image: Image;
-  found?: boolean;
+  // found?: boolean;
 }
 
 export type Characters = Character[];
@@ -27,10 +27,17 @@ export type Position = [number, number];
 export interface CharactersPosition {
   character_id: string;
   position: Position;
-  found?: boolean;
+  // found?: boolean;
 }
 
 export type CharactersPositions = CharactersPosition[];
+
+export interface FoundCharacter {
+  id: string;
+  found: boolean;
+}
+
+export type FoundCharacters = FoundCharacter[];
 
 export interface Level {
   id: string;

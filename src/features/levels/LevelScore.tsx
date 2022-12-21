@@ -1,22 +1,27 @@
 import { useState } from 'react';
-import { CharactersPosition } from '../../types';
+import { useAppSelector } from '../../app/hooks';
 
-import {
-  useFetchCharactersQuery,
-  useFetchSingleLevelQuery,
-} from './levels-slice';
+import { useFetchCharactersQuery } from './levels-slice';
 
-const LevelScore = ({ levelId }: { levelId: string }) => {
+const LevelScore = () => {
   const [hideScore, setHideScore] = useState(false);
-
-  const { data: levelData, isSuccess: levelIsSuccess } =
-    useFetchSingleLevelQuery(levelId);
 
   const { data: charactersData, isSuccess: charactersIsSuccess } =
     useFetchCharactersQuery();
 
+  const getFoundCharactersIds = useAppSelector((state) =>
+    state.foundCharacters.map((char) => {
+      if (char.found === true) return char.id;
+    })
+  );
+
+  const characters = charactersData?.map((character) => {
+    const found = getFoundCharactersIds.includes(character.id);
+    return { ...character, found };
+  });
+
   let content;
-  if (charactersIsSuccess && levelIsSuccess) {
+  if (charactersIsSuccess) {
     content = hideScore ? (
       <button
         onClick={() => {
@@ -38,31 +43,25 @@ const LevelScore = ({ levelId }: { levelId: string }) => {
       </button>
     ) : (
       <>
-        {charactersData.map((character) => {
-          const found = levelData?.characters_positions.find(
-            (pos: CharactersPosition) => pos.character_id === character.id
-          )?.found;
-          character = { ...character, found };
-          return (
-            <div key={character.id} className="group flex items-center gap-4">
-              <span
-                className="hidden cursor-default rounded-full bg-white px-3 py-1 
+        {characters?.map((character) => (
+          <div key={character.id} className="group flex items-center gap-4">
+            <span
+              className="hidden cursor-default rounded-full bg-white px-3 py-1 
               text-xl group-hover:block"
-              >
-                {character.name}
-              </span>
-              <img
-                src={character.image.url}
-                alt={character.name}
-                className={
-                  character.found
-                    ? 'w-20 rounded-full border-2 border-white bg-green-600 opacity-100 transition-all hover:scale-105'
-                    : 'w-20 rounded-full border-2 border-white bg-red-600 opacity-70 transition-all hover:scale-105 hover:opacity-100'
-                }
-              />
-            </div>
-          );
-        })}
+            >
+              {character.name}
+            </span>
+            <img
+              src={character.image.url}
+              alt={character.name}
+              className={
+                character.found
+                  ? 'w-20 rounded-full border-2 border-white bg-green-600 opacity-100 transition-all hover:scale-105'
+                  : 'w-20 rounded-full border-2 border-white bg-red-600 opacity-70 transition-all hover:scale-105 hover:opacity-100'
+              }
+            />
+          </div>
+        ))}
         <button
           onClick={() => {
             setHideScore(true);

@@ -1,10 +1,21 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { RootState } from '../../app/store';
 
 import { firestore } from '../../firebase';
-import { Character, Characters, Level, Levels } from '../../types';
+import {
+  Character,
+  Characters,
+  FoundCharacter,
+  FoundCharacters,
+  Level,
+  Levels,
+} from '../../types';
+import { useAppSelector } from '../../app/hooks';
 
-export const levelsApiSlice = createApi({
+export const levelsApi = createApi({
   reducerPath: 'levels',
   baseQuery: fakeBaseQuery(),
   tagTypes: ['Level', 'Character'],
@@ -32,11 +43,11 @@ export const levelsApiSlice = createApi({
           const ref = doc(firestore, 'levels', id);
           const documentSnapshot = await getDoc(ref);
           const data: Level = { ...documentSnapshot.data() } as Level;
-          if (data && data.characters_positions) {
-            data?.characters_positions.forEach((position) => {
-              position.found = false;
-            });
-          }
+          // if (data && data.characters_positions) {
+          //   data?.characters_positions.forEach((position) => {
+          //     position.found = false;
+          //   });
+          // }
           return { data };
         } catch (error: any) {
           console.error(error.message);
@@ -69,4 +80,30 @@ export const {
   useFetchLevelsQuery,
   useFetchSingleLevelQuery,
   useFetchCharactersQuery,
-} = levelsApiSlice;
+} = levelsApi;
+
+const initialState: FoundCharacters = [
+  { id: '15hg3If0JJaa3gXzfpow', found: true },
+  { id: '8LhDob2HJEjB5Gvi7s2u', found: true },
+  { id: 'tWH93mZU0sfqsPYC4ART', found: true },
+  { id: 'xvke58nGthigfxFfvOTp', found: true },
+];
+
+export const foundCharactersSlice = createSlice({
+  name: 'foundCharacters',
+  initialState: initialState,
+  reducers: {
+    resetScore(state) {
+      state.forEach((char) => {
+        char.found = false;
+      });
+    },
+    setFoundCharacters(state, action: PayloadAction<string>) {
+      const id = action.payload;
+      const character = state.find((char: FoundCharacter) => char.id === id);
+      if (character) character.found = true;
+    },
+  },
+});
+
+export const { resetScore, setFoundCharacters } = foundCharactersSlice.actions;

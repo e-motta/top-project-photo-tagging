@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+import { useAppSelector } from '../../app/hooks';
 import {
   useFetchCharactersQuery,
   useFetchSingleLevelQuery,
@@ -7,10 +9,12 @@ const GuessButton = ({
   levelId,
   style,
   reverse,
+  hideGuessButton,
 }: {
   levelId: string;
   style: React.CSSProperties;
   reverse: boolean;
+  hideGuessButton: () => void;
 }) => {
   const {
     data: levelData,
@@ -26,6 +30,10 @@ const GuessButton = ({
     error: charactersError,
   } = useFetchCharactersQuery();
 
+  const onClick = () => {
+    hideGuessButton();
+  };
+
   if (levelIsError) {
     console.error(levelError);
     return <p>Server error. Try again later.</p>;
@@ -36,22 +44,27 @@ const GuessButton = ({
     return <p>Server error. Try again later.</p>;
   }
 
+  const getFoundCharactersIds = useAppSelector((state) =>
+    state.foundCharacters.map((char) => {
+      if (char.found === true) return char.id;
+    })
+  );
+
+  const notFoundCharacters = charactersData
+    ?.map((character) => {
+      const found = getFoundCharactersIds.includes(character.id);
+      return { ...character, found };
+    })
+    .filter((character) => !character.found);
+
   let content;
   if (charactersIsSuccess && levelIsSuccess) {
-    const notFoundCharacters = charactersData
-      .map((character) => {
-        const found = levelData.characters_positions.find(
-          (pos) => pos.character_id === character.id
-        )?.found;
-        return (character = { ...character, found });
-      })
-      .filter((character) => !character.found);
-
-    content = notFoundCharacters.map((character) => (
+    content = notFoundCharacters?.map((character) => (
       <button
         key={character.id}
         type="button"
         className="w-12 transition-all hover:scale-110"
+        onClick={onClick}
       >
         <img
           src={character.image.url}
@@ -65,7 +78,14 @@ const GuessButton = ({
   return reverse ? (
     <div className="absolute w-[0]" style={style}>
       <div className="relative">
-        <div className="absolute -left-[232px] flex flex-row-reverse gap-4">
+        <div
+          style={{
+            left: notFoundCharacters
+              ? `-${8 + notFoundCharacters.length * 56}px`
+              : '-16px',
+          }}
+          className="absolute flex flex-row-reverse gap-4"
+        >
           <div className="h-12 w-12 border-4 border-dashed border-black"></div>
           <div className="flex gap-2">{content}</div>
         </div>
