@@ -1,28 +1,22 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 import { useAppSelector } from '../../app/hooks';
-import {
-  useFetchCharactersQuery,
-  useFetchSingleLevelQuery,
-} from './levels-slice';
+import { useFetchCharactersQuery } from './levels-slice';
 
 const GuessButton = ({
   levelId,
   style,
+  scale,
   reverse,
   hideGuessButton,
+  setSelectedCharacterId,
 }: {
   levelId: string;
   style: React.CSSProperties;
+  scale: boolean;
   reverse: boolean;
   hideGuessButton: () => void;
+  setSelectedCharacterId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
-  const {
-    data: levelData,
-    isSuccess: levelIsSuccess,
-    isError: levelIsError,
-    error: levelError,
-  } = useFetchSingleLevelQuery(levelId);
-
   const {
     data: charactersData,
     isSuccess: charactersIsSuccess,
@@ -30,14 +24,10 @@ const GuessButton = ({
     error: charactersError,
   } = useFetchCharactersQuery();
 
-  const onClick = () => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setSelectedCharacterId(e.currentTarget.id);
     hideGuessButton();
   };
-
-  if (levelIsError) {
-    console.error(levelError);
-    return <p>Server error. Try again later.</p>;
-  }
 
   if (charactersIsError) {
     console.error(charactersError);
@@ -58,9 +48,10 @@ const GuessButton = ({
     .filter((character) => !character.found);
 
   let content;
-  if (charactersIsSuccess && levelIsSuccess) {
+  if (charactersIsSuccess) {
     content = notFoundCharacters?.map((character) => (
       <button
+        id={character.id}
         key={character.id}
         type="button"
         className="w-12 transition-all hover:scale-110"
@@ -77,24 +68,38 @@ const GuessButton = ({
 
   return reverse ? (
     <div className="absolute w-[0]" style={style}>
-      <div className="relative">
-        <div
-          style={{
-            left: notFoundCharacters
-              ? `-${8 + notFoundCharacters.length * 56}px`
-              : '-16px',
-          }}
-          className="absolute flex flex-row-reverse gap-4"
-        >
-          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-          <div className="flex gap-2">{content}</div>
+      <div
+        className={
+          scale ? 'scale-110 transition-all' : 'scale-100 transition-all'
+        }
+      >
+        <div className="relative">
+          <div
+            style={{
+              left: notFoundCharacters
+                ? `-${8 + notFoundCharacters.length * 56}px`
+                : '-16px',
+            }}
+            className="absolute flex flex-row-reverse gap-4"
+          >
+            <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+            <div className="flex gap-2">{content}</div>
+          </div>
         </div>
       </div>
     </div>
   ) : (
-    <div className="absolute flex w-[280px] gap-4" style={style}>
-      <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-      <div className="flex gap-2">{content}</div>
+    <div className="absolute w-[280px]" style={style}>
+      <div
+        className={
+          scale ? 'scale-110 transition-all' : 'scale-100 transition-all'
+        }
+      >
+        <div className="flex gap-4">
+          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+          <div className="flex gap-2">{content}</div>
+        </div>
+      </div>
     </div>
   );
 };

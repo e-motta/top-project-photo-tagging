@@ -83,22 +83,20 @@ export const {
 } = levelsApi;
 
 const initialState: FoundCharacters = [
-  { id: '15hg3If0JJaa3gXzfpow', found: true },
-  { id: '8LhDob2HJEjB5Gvi7s2u', found: true },
-  { id: 'tWH93mZU0sfqsPYC4ART', found: true },
-  { id: 'xvke58nGthigfxFfvOTp', found: true },
+  { id: '15hg3If0JJaa3gXzfpow', found: false },
+  { id: '8LhDob2HJEjB5Gvi7s2u', found: false },
+  { id: 'tWH93mZU0sfqsPYC4ART', found: false },
+  { id: 'xvke58nGthigfxFfvOTp', found: false },
 ];
 
 export const foundCharactersSlice = createSlice({
   name: 'foundCharacters',
   initialState: initialState,
   reducers: {
-    resetScore(state) {
-      state.forEach((char) => {
-        char.found = false;
-      });
+    resetScore() {
+      return initialState;
     },
-    setFoundCharacters(state, action: PayloadAction<string>) {
+    setFoundCharacter(state, action: PayloadAction<string>) {
       const id = action.payload;
       const character = state.find((char: FoundCharacter) => char.id === id);
       if (character) character.found = true;
@@ -106,4 +104,4 @@ export const foundCharactersSlice = createSlice({
   },
 });
 
-export const { resetScore, setFoundCharacters } = foundCharactersSlice.actions;
+export const { resetScore, setFoundCharacter } = foundCharactersSlice.actions;
