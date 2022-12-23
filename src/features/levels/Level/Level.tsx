@@ -163,7 +163,7 @@ const Level = () => {
     window.addEventListener('scroll', onScroll);
 
     return () => window.removeEventListener('scroll', onScroll);
-  }, [showGuessButton, showHint]);
+  }, [allowScroll]);
 
   // Data
   const dispatchResetCallback = useCallback(() => {
