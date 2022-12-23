@@ -11,7 +11,7 @@ import { resetScore } from '../found-characters-slice';
 import {
   setGuessButtonStyle,
   setReverseGuessButton,
-  setScaleGuessButton,
+  setSelectedCharacterId,
   setShowGuessButton,
 } from '../guess-button-slice';
 import LevelScore from '../LevelScore';
@@ -47,7 +47,6 @@ const Level = () => {
   // Local state
   const [hintMessage, setHintMessage] = useState('');
   const [showHint, setShowHint] = useState(false);
-  const [allowScroll, setAllowScroll] = useState(true);
 
   const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
     -1, -1,
@@ -55,14 +54,15 @@ const Level = () => {
   const [clickPositionOnImage, setClickPositionOnImage] = useState<Position>([
     -1, -1,
   ]);
-  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(
-    null
-  );
 
   // Event handlers
   const handleGuessButton = () => {
-    const x = clickPositionOnScreen[0] - 24;
-    const y = clickPositionOnScreen[1] - 24;
+    const headerHeight = document.querySelector('#header')?.clientHeight;
+
+    const x = clickPositionOnImage[0] - 24;
+    const y = headerHeight
+      ? clickPositionOnImage[1] - 24 - headerHeight
+      : clickPositionOnImage[1] - 24;
 
     if (showGuessButton) {
       dispatch(
@@ -89,16 +89,6 @@ const Level = () => {
     }
   };
 
-  const handleScroll = () => {
-    if (allowScroll) {
-      window.onscroll = null;
-    } else {
-      const scrollX = window.scrollX;
-      const scrollY = window.scrollY;
-      window.onscroll = () => window.scrollTo(scrollX, scrollY);
-    }
-  };
-
   const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     const x = e.clientX;
     const y = e.clientY + window.scrollY;
@@ -113,18 +103,11 @@ const Level = () => {
     setClickPositionOnImage(
       imageHorizontalScroll ? [imageHorizontalScroll, y] : [x, y]
     );
-
-    handleScroll();
   };
 
   useEffect(() => {
     handleGuessButton();
-    setSelectedCharacterId(null);
-    if (allowScroll) {
-      setAllowScroll(false);
-    } else {
-      setAllowScroll(true);
-    }
+    dispatch(setSelectedCharacterId(null));
   }, [clickPositionOnScreen]);
 
   // Hint messages
@@ -143,28 +126,6 @@ const Level = () => {
     }
   }, [isSuccess]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      if (allowScroll) {
-        setDelayedHintMessage(
-          'Select a character or click anywhere in the image to resume scrolling',
-          0,
-          5000,
-          setHintMessage,
-          setShowHint
-        );
-        dispatch(setScaleGuessButton(true));
-        setTimeout(() => {
-          dispatch(setScaleGuessButton(false));
-        }, 600);
-      }
-    };
-
-    window.addEventListener('scroll', onScroll);
-
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [allowScroll]);
-
   // Data
   const dispatchResetCallback = useCallback(() => {
     dispatch(resetScore());
@@ -177,7 +138,6 @@ const Level = () => {
   useGameRound({
     levelId,
     clickPosition: clickPositionOnImage,
-    selectedCharacterId,
   });
 
   if (isLoading) {
@@ -204,37 +164,35 @@ const Level = () => {
 
   return (
     <>
-      <div className={allowScroll ? 'overflow-hidden' : 'overflow-auto'}>
-        <img
-          ref={mainLevelImage}
-          src={data?.images.url_big}
-          alt={data?.name}
-          className="relative min-w-[1750px] cursor-[crosshair]"
-          onClick={onMouseClick}
-        />
-        <Timer />
-
-        <LevelScore />
-        <Hint show={showHint} message={hintMessage} />
+      <div className="overflow-auto">
+        <div className="relative">
+          <img
+            ref={mainLevelImage}
+            src={data?.images.url_big}
+            alt={data?.name}
+            className="relative min-w-[1750px] cursor-[crosshair]"
+            onClick={onMouseClick}
+          />
+          <Timer />
+          <GuessButton
+            levelId={levelId}
+            style={guessButtonStyle}
+            scale={scaleGuessButton}
+            reverse={reverseGuessButton}
+            hideGuessButton={() => {
+              dispatch(setShowGuessButton(false));
+              dispatch(
+                setGuessButtonStyle({
+                  display: 'none',
+                })
+              );
+              setClickPositionOnScreen([-1, -1]);
+            }}
+          />
+          <LevelScore />
+          <Hint show={showHint} message={hintMessage} />
+        </div>
       </div>
-      <GuessButton
-        levelId={levelId}
-        style={guessButtonStyle}
-        scale={scaleGuessButton}
-        reverse={reverseGuessButton}
-        hideGuessButton={() => {
-          dispatch(setShowGuessButton(false));
-          setAllowScroll(true);
-          handleScroll();
-          dispatch(
-            setGuessButtonStyle({
-              display: 'none',
-            })
-          );
-          setClickPositionOnScreen([-1, -1]);
-        }}
-        setSelectedCharacterId={setSelectedCharacterId}
-      />
     </>
   );
 };

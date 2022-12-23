@@ -1,22 +1,19 @@
 import React from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { setSelectedCharacterId } from './guess-button-slice';
 import { useFetchCharactersQuery } from './levels-slice';
 
 const GuessButton = ({
-  levelId,
   style,
-  scale,
   reverse,
   hideGuessButton,
-  setSelectedCharacterId,
 }: {
-  levelId: string;
   style: React.CSSProperties;
-  scale: boolean;
   reverse: boolean;
   hideGuessButton: () => void;
-  setSelectedCharacterId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
+  const dispatch = useAppDispatch();
+
   const {
     data: charactersData,
     isSuccess: charactersIsSuccess,
@@ -25,7 +22,7 @@ const GuessButton = ({
   } = useFetchCharactersQuery();
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setSelectedCharacterId(e.currentTarget.id);
+    dispatch(setSelectedCharacterId(e.currentTarget.id));
     hideGuessButton();
   };
 
@@ -68,37 +65,25 @@ const GuessButton = ({
 
   return reverse ? (
     <div className="absolute w-[0]" style={style}>
-      <div
-        className={
-          scale ? 'scale-110 transition-all' : 'scale-100 transition-all'
-        }
-      >
-        <div className="relative">
-          <div
-            style={{
-              left: notFoundCharacters
-                ? `-${8 + notFoundCharacters.length * 56}px`
-                : '-16px',
-            }}
-            className="absolute flex flex-row-reverse gap-4"
-          >
-            <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-            <div className="flex gap-2">{content}</div>
-          </div>
+      <div className="relative">
+        <div
+          style={{
+            left: notFoundCharacters
+              ? `-${8 + notFoundCharacters.length * 56}px`
+              : '-16px',
+          }}
+          className="absolute flex flex-row-reverse gap-4"
+        >
+          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+          <div className="flex gap-2">{content}</div>
         </div>
       </div>
     </div>
   ) : (
     <div className="absolute w-[280px]" style={style}>
-      <div
-        className={
-          scale ? 'scale-110 transition-all' : 'scale-100 transition-all'
-        }
-      >
-        <div className="flex gap-4">
-          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-          <div className="flex gap-2">{content}</div>
-        </div>
+      <div className="flex gap-4">
+        <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+        <div className="flex gap-2">{content}</div>
       </div>
     </div>
   );

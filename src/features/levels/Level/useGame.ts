@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { CharactersPosition } from '../../../types';
 import { useFetchSingleLevelQuery } from '../levels-slice';
 import { setFoundCharacter } from '../found-characters-slice';
@@ -6,13 +6,14 @@ import { setFoundCharacter } from '../found-characters-slice';
 const useGameRound = ({
   levelId,
   clickPosition,
-  selectedCharacterId,
 }: {
   levelId: string;
   clickPosition: [number, number];
-  selectedCharacterId: string | null;
 }) => {
   const dispatch = useAppDispatch();
+  const selectedCharacterId = useAppSelector(
+    (state) => state.guessButton.selectedCharacterId
+  );
 
   const { data, isSuccess, isError, error } = useFetchSingleLevelQuery(levelId);
 
