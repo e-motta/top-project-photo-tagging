@@ -175,9 +175,7 @@ const Level = () => {
           />
           <Timer />
           <GuessButton
-            levelId={levelId}
             style={guessButtonStyle}
-            scale={scaleGuessButton}
             reverse={reverseGuessButton}
             hideGuessButton={() => {
               dispatch(setShowGuessButton(false));
