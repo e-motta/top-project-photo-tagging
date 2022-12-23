@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 import { CharactersPosition } from '../../../types';
-import { setFoundCharacter, useFetchSingleLevelQuery } from '../levels-slice';
+import { useFetchSingleLevelQuery } from '../levels-slice';
+import { setFoundCharacter } from '../found-characters-slice';
 
 const useGameRound = ({
   levelId,
@@ -12,12 +12,9 @@ const useGameRound = ({
   clickPosition: [number, number];
   selectedCharacterId: string | null;
 }) => {
-  const [gameover, setGameover] = useState(false);
-
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, isSuccess, isError, error } =
-    useFetchSingleLevelQuery(levelId);
+  const { data, isSuccess, isError, error } = useFetchSingleLevelQuery(levelId);
 
   if (isError) console.error(error);
 
@@ -28,13 +25,10 @@ const useGameRound = ({
         Math.abs(charPosition.position[1] - clickPosition[1]) < 24 &&
         selectedCharacterId === charPosition.character_id
       ) {
-        console.log('setFoundCharacter');
         dispatch(setFoundCharacter(charPosition.character_id));
       }
     });
   }
-
-  return { gameover };
 };
 
 export default useGameRound;
