@@ -3,7 +3,7 @@ import { useParams, Navigate } from 'react-router-dom';
 
 import GuessButton from '../GuessButton';
 import Hint from '../../../components/Hint';
-import Timer from '../../../components/Timer';
+import Timer from '../../timer/Timer';
 import Spinner from '../../../components/Spinner';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useFetchSingleLevelQuery } from '../levels-slice';
@@ -37,9 +37,6 @@ const Level = () => {
   const reverseGuessButton = useAppSelector(
     (state) => state.guessButton.reverseGuessButton
   );
-  const scaleGuessButton = useAppSelector(
-    (state) => state.guessButton.scaleGuessButton
-  );
   const guessButtonStyle = useAppSelector(
     (state) => state.guessButton.guessButtonStyle
   );
@@ -47,6 +44,7 @@ const Level = () => {
   // Local state
   const [hintMessage, setHintMessage] = useState('');
   const [showHint, setShowHint] = useState(false);
+  const [showEnterName, setShowEnterName] = useState(true);
 
   const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
     -1, -1,

@@ -21,9 +21,6 @@ export const guessButtonSlice = createSlice({
     setReverseGuessButton(state, action: PayloadAction<boolean>) {
       state.reverseGuessButton = action.payload;
     },
-    setScaleGuessButton(state, action: PayloadAction<boolean>) {
-      state.scaleGuessButton = action.payload;
-    },
     setGuessButtonStyle(state, action: PayloadAction<React.CSSProperties>) {
       state.guessButtonStyle = action.payload;
     },
@@ -36,7 +33,6 @@ export const guessButtonSlice = createSlice({
 export const {
   setShowGuessButton,
   setReverseGuessButton,
-  setScaleGuessButton,
   setGuessButtonStyle,
   setSelectedCharacterId,
 } = guessButtonSlice.actions;
