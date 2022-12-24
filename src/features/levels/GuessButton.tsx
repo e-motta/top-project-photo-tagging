@@ -6,11 +6,9 @@ import { useFetchCharactersQuery } from './levels-slice';
 const GuessButton = ({
   style,
   reverse,
-  hideGuessButton,
 }: {
   style: React.CSSProperties;
   reverse: boolean;
-  hideGuessButton: () => void;
 }) => {
   const dispatch = useAppDispatch();
 
@@ -23,7 +21,6 @@ const GuessButton = ({
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     dispatch(setSelectedCharacterId(e.currentTarget.id));
-    hideGuessButton();
   };
 
   if (charactersIsError) {

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const guessButtonInitialState = {
-  showGuessButton: false,
   reverseGuessButton: true,
   scaleGuessButton: false,
   guessButtonStyle: {
@@ -15,9 +14,6 @@ export const guessButtonSlice = createSlice({
   name: 'guessButton',
   initialState: guessButtonInitialState,
   reducers: {
-    setShowGuessButton(state, action: PayloadAction<boolean>) {
-      state.showGuessButton = action.payload;
-    },
     setReverseGuessButton(state, action: PayloadAction<boolean>) {
       state.reverseGuessButton = action.payload;
     },
@@ -31,7 +27,6 @@ export const guessButtonSlice = createSlice({
 });
 
 export const {
-  setShowGuessButton,
   setReverseGuessButton,
   setGuessButtonStyle,
   setSelectedCharacterId,
