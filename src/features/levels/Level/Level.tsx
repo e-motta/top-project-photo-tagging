@@ -16,8 +16,9 @@ import {
 } from '../guess-button-slice';
 import LevelScore from '../LevelScore';
 import { Position } from '../../../types';
-import useGameRound from './useGame';
+import { useGameOver, useGameRound } from './useGame';
 import { setDelayedHintMessage } from '../helper';
+import EnterName from '../../score-table/EnterName';
 
 const Level = () => {
   const { levelId } = useParams();
@@ -31,9 +32,6 @@ const Level = () => {
 
   const dispatch = useAppDispatch();
 
-  const showGuessButton = useAppSelector(
-    (state) => state.guessButton.showGuessButton
-  );
   const reverseGuessButton = useAppSelector(
     (state) => state.guessButton.reverseGuessButton
   );
@@ -44,7 +42,7 @@ const Level = () => {
   // Local state
   const [hintMessage, setHintMessage] = useState('');
   const [showHint, setShowHint] = useState(false);
-  const [showEnterName, setShowEnterName] = useState(true);
+  const [showEnterName, setShowEnterName] = useState(false);
 
   const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
     -1, -1,
@@ -62,32 +60,24 @@ const Level = () => {
       ? clickPositionOnImage[1] - 24 - headerHeight
       : clickPositionOnImage[1] - 24;
 
-    if (showGuessButton) {
-      dispatch(
-        setGuessButtonStyle({
-          left: `${x}px`,
-          top: `${y}px`,
-        })
-      );
+    dispatch(
+      setGuessButtonStyle({
+        left: `${x}px`,
+        top: `${y}px`,
+      })
+    );
 
-      // Avoid overlapping with Score component, rendering off screen
-      if (window.innerWidth - x < 400) {
-        dispatch(setReverseGuessButton(true));
-      } else {
-        dispatch(setReverseGuessButton(false));
-      }
-      dispatch(setShowGuessButton(false));
+    // Avoid overlapping with Score component, rendering off screen
+    if (window.innerWidth - x < 400) {
+      dispatch(setReverseGuessButton(true));
     } else {
-      dispatch(
-        setGuessButtonStyle({
-          display: 'none',
-        })
-      );
-      dispatch(setShowGuessButton(true));
+      dispatch(setReverseGuessButton(false));
     }
   };
 
   const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    dispatch(setShowGuessButton(true));
+
     const x = e.clientX;
     const y = e.clientY + window.scrollY;
 
@@ -101,12 +91,16 @@ const Level = () => {
     setClickPositionOnImage(
       imageHorizontalScroll ? [imageHorizontalScroll, y] : [x, y]
     );
+    console.log(imageHorizontalScroll, y);
   };
 
   useEffect(() => {
     handleGuessButton();
-    dispatch(setSelectedCharacterId(null));
   }, [clickPositionOnScreen]);
+
+  useEffect(() => {
+    dispatch(setSelectedCharacterId(null));
+  });
 
   // Hint messages
   useEffect(() => {
@@ -138,6 +132,13 @@ const Level = () => {
     clickPosition: clickPositionOnImage,
   });
 
+  const gameover = useGameOver();
+  useEffect(() => {
+    if (gameover) {
+      setShowEnterName(true);
+    }
+  }, [gameover]);
+
   if (isLoading) {
     return (
       <div className="m-10 flex w-auto justify-center">
@@ -153,7 +154,7 @@ const Level = () => {
 
   if (
     isSuccess &&
-    // check if response is empty (id is not in db)
+    // check if response is empty (id is not in db) // fixme: not working
     data &&
     Object.keys(data).length === 0 &&
     Object.getPrototypeOf(data) === Object.prototype
@@ -172,21 +173,10 @@ const Level = () => {
             onClick={onMouseClick}
           />
           <Timer />
-          <GuessButton
-            style={guessButtonStyle}
-            reverse={reverseGuessButton}
-            hideGuessButton={() => {
-              dispatch(setShowGuessButton(false));
-              dispatch(
-                setGuessButtonStyle({
-                  display: 'none',
-                })
-              );
-              setClickPositionOnScreen([-1, -1]);
-            }}
-          />
+          <GuessButton style={guessButtonStyle} reverse={reverseGuessButton} />
           <LevelScore />
           <Hint show={showHint} message={hintMessage} />
+          <EnterName show={showEnterName} levelId={levelId} />
         </div>
       </div>
     </>

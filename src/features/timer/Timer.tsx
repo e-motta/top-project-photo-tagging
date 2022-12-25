@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getElapsedTime } from './helper';
+import { getElapsedTime, splitTime } from './helper';
 import { resetTimer } from './timer-slice';
 
 const Timer = () => {
@@ -31,13 +31,7 @@ const Timer = () => {
     setTime(getElapsedTime(start, new Date().getTime()));
   }, [time]);
 
-  let msec = time;
-  const hh = Math.floor(msec / 1000 / 60 / 60);
-  msec -= hh * 1000 * 60 * 60;
-  const mm = Math.floor(msec / 1000 / 60);
-  msec -= mm * 1000 * 60;
-  const ss = Math.floor(msec / 1000);
-  msec -= ss * 1000;
+  const { hh, mm, ss } = splitTime(time);
 
   return (
     <div

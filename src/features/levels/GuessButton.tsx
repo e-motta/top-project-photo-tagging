@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setSelectedCharacterId } from './guess-button-slice';
+import {
+  setSelectedCharacterId,
+  setShowGuessButton,
+} from './guess-button-slice';
 import { useFetchCharactersQuery } from './levels-slice';
 
 const GuessButton = ({
@@ -10,6 +13,10 @@ const GuessButton = ({
   style: React.CSSProperties;
   reverse: boolean;
 }) => {
+  const showGuessButton = useAppSelector(
+    (state) => state.guessButton.showGuessButton
+  );
+
   const dispatch = useAppDispatch();
 
   const {
@@ -21,6 +28,7 @@ const GuessButton = ({
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     dispatch(setSelectedCharacterId(e.currentTarget.id));
+    dispatch(setShowGuessButton(false));
   };
 
   if (charactersIsError) {
@@ -60,28 +68,32 @@ const GuessButton = ({
     ));
   }
 
-  return reverse ? (
-    <div className="absolute w-[0]" style={style}>
-      <div className="relative">
-        <div
-          style={{
-            left: notFoundCharacters
-              ? `-${8 + notFoundCharacters.length * 56}px`
-              : '-16px',
-          }}
-          className="absolute flex flex-row-reverse gap-4"
-        >
-          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-          <div className="flex gap-2">{content}</div>
+  return (
+    <div className={showGuessButton ? '' : 'hidden'}>
+      {reverse ? (
+        <div className="absolute w-[0]" style={style}>
+          <div className="relative">
+            <div
+              style={{
+                left: notFoundCharacters
+                  ? `-${8 + notFoundCharacters.length * 56}px`
+                  : '-16px',
+              }}
+              className="absolute flex flex-row-reverse gap-4"
+            >
+              <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+              <div className="flex gap-2">{content}</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  ) : (
-    <div className="absolute w-[280px]" style={style}>
-      <div className="flex gap-4">
-        <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-        <div className="flex gap-2">{content}</div>
-      </div>
+      ) : (
+        <div className="absolute w-[280px]" style={style}>
+          <div className="flex gap-4">
+            <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+            <div className="flex gap-2">{content}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

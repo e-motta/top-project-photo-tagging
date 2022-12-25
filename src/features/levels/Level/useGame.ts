@@ -1,9 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { CharactersPosition } from '../../../types';
 import { useFetchSingleLevelQuery } from '../levels-slice';
-import { setFoundCharacter } from '../found-characters-slice';
+import { resetScore, setFoundCharacter } from '../found-characters-slice';
+import { stoptimer } from '../../timer/timer-slice';
+import { setSelectedCharacterId } from '../guess-button-slice';
 
-const useGameRound = ({
+const useGameRound = async ({
   levelId,
   clickPosition,
 }: {
@@ -26,10 +28,27 @@ const useGameRound = ({
         Math.abs(charPosition.position[1] - clickPosition[1]) < 24 &&
         selectedCharacterId === charPosition.character_id
       ) {
-        dispatch(setFoundCharacter(charPosition.character_id));
+        setTimeout(() => {
+          dispatch(setFoundCharacter(charPosition.character_id));
+        }, 0);
       }
     });
   }
 };
 
-export default useGameRound;
+const useGameOver = () => {
+  const dispatch = useAppDispatch();
+
+  const allCharacters = useAppSelector((state) => state.foundCharacters);
+  const gameover = allCharacters.some((character) => character.found === true);
+
+  if (gameover)
+    setTimeout(() => {
+      dispatch(resetScore());
+      dispatch(stoptimer());
+    }, 0);
+
+  return gameover;
+};
+
+export { useGameRound, useGameOver };

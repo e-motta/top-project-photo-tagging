@@ -51,15 +51,18 @@ export type Levels = Level[];
 // High scores table
 
 export interface Score {
-  id: string;
+  id?: string;
   name: string;
-  start_time: Date;
-  end_time: Date;
+  time: number;
 }
 
 export interface ScoresTable {
-  scores: Score[];
+  id: string;
+  levelId: string;
+  scores?: Score[];
 }
+
+export type ScoresTables = ScoresTable[];
 
 // Local - Level //
 
@@ -67,4 +70,11 @@ export interface LevelDetails {
   foundCharactersIds: string[];
   startTime: Date;
   endTime: Date | null;
+}
+
+// Timer
+
+export interface Timer {
+  start: number;
+  stop: number | null;
 }

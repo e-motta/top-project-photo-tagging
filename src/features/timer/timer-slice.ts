@@ -1,9 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Timer {
-  start: number;
-  stop: number | null;
-}
+import { createSlice } from '@reduxjs/toolkit';
+import { Timer } from '../../types';
 
 const timerInitialState: Timer = {
   start: new Date().getTime(),
