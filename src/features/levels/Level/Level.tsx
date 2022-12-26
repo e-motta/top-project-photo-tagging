@@ -58,10 +58,10 @@ const Level = () => {
   const [showEnterName, setShowEnterName] = useState(false);
   const [showBackHome, setShowBackHome] = useState(false);
   const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
-    -1, -1,
+    -9999, -9999,
   ]);
   const [clickPositionOnImage, setClickPositionOnImage] = useState<Position>([
-    -1, -1,
+    -9999, -9999,
   ]);
 
   // Event handlers
