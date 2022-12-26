@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Orientation } from '../../types';
 
 const guessButtonInitialState = {
   showGuessButton: false,
-  reverseGuessButton: true,
+  guessButtonOrientation: 'X' as Orientation,
+  reverseXGuessButton: false,
+  reverseYGuessButton: false,
   scaleGuessButton: false,
   guessButtonStyle: {
     left: '-9999px',
@@ -18,8 +21,14 @@ export const guessButtonSlice = createSlice({
     setShowGuessButton(state, action: PayloadAction<boolean>) {
       state.showGuessButton = action.payload;
     },
-    setReverseGuessButton(state, action: PayloadAction<boolean>) {
-      state.reverseGuessButton = action.payload;
+    setGuessButtonOrientation(state, action: PayloadAction<Orientation>) {
+      state.guessButtonOrientation = action.payload;
+    },
+    setReverseXGuessButton(state, action: PayloadAction<boolean>) {
+      state.reverseXGuessButton = action.payload;
+    },
+    setReverseYGuessButton(state, action: PayloadAction<boolean>) {
+      state.reverseYGuessButton = action.payload;
     },
     setGuessButtonStyle(state, action: PayloadAction<React.CSSProperties>) {
       state.guessButtonStyle = action.payload;
@@ -32,7 +41,9 @@ export const guessButtonSlice = createSlice({
 
 export const {
   setShowGuessButton,
-  setReverseGuessButton,
+  setGuessButtonOrientation,
+  setReverseXGuessButton,
+  setReverseYGuessButton,
   setGuessButtonStyle,
   setSelectedCharacterId,
 } = guessButtonSlice.actions;

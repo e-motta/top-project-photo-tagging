@@ -10,9 +10,11 @@ import { useFetchSingleLevelQuery } from '../levels-slice';
 import { resetScore } from '../found-characters-slice';
 import {
   setGuessButtonStyle,
-  setReverseGuessButton,
+  setReverseXGuessButton,
+  setReverseYGuessButton,
   setSelectedCharacterId,
   setShowGuessButton,
+  setGuessButtonOrientation,
 } from '../guess-button-slice';
 import LevelScore from '../LevelScore';
 import { Position } from '../../../types';
@@ -37,8 +39,14 @@ const Level = () => {
 
   const dispatch = useAppDispatch();
 
-  const reverseGuessButton = useAppSelector(
-    (state) => state.guessButton.reverseGuessButton
+  const guessButtonOrientation = useAppSelector(
+    (state) => state.guessButton.guessButtonOrientation
+  );
+  const reverseXGuessButton = useAppSelector(
+    (state) => state.guessButton.reverseXGuessButton
+  );
+  const reverseYGuessButton = useAppSelector(
+    (state) => state.guessButton.reverseYGuessButton
   );
   const guessButtonStyle = useAppSelector(
     (state) => state.guessButton.guessButtonStyle
@@ -73,10 +81,22 @@ const Level = () => {
     );
 
     // Avoid overlapping with Score component, rendering off screen
-    if (window.innerWidth - x < 400) {
-      dispatch(setReverseGuessButton(true));
+    if (window.innerWidth < 640) {
+      dispatch(setGuessButtonOrientation('Y'));
     } else {
-      dispatch(setReverseGuessButton(false));
+      dispatch(setGuessButtonOrientation('X'));
+    }
+
+    if (window.innerWidth - x < 400) {
+      dispatch(setReverseXGuessButton(true));
+    } else {
+      dispatch(setReverseXGuessButton(false));
+    }
+    console.log(window);
+    if (window.innerHeight + window.scrollY - y < 400) {
+      dispatch(setReverseYGuessButton(true));
+    } else {
+      dispatch(setReverseYGuessButton(false));
     }
   };
 
@@ -87,7 +107,7 @@ const Level = () => {
     const y = e.clientY + window.scrollY;
 
     setClickPositionOnScreen([x, y]);
-    console.log(navigator.userAgent);
+
     let imageHorizontalScroll;
     if (mainLevelImage.current)
       imageHorizontalScroll = Boolean(
@@ -187,7 +207,12 @@ const Level = () => {
             onClick={onMouseClick}
           />
           <Timer />
-          <GuessButton style={guessButtonStyle} reverse={reverseGuessButton} />
+          <GuessButton
+            style={guessButtonStyle}
+            orientation={guessButtonOrientation}
+            reverseX={reverseXGuessButton}
+            reverseY={reverseYGuessButton}
+          />
           <LevelScore />
           <Hint show={showHint} message={hintMessage} />
           <EnterName show={showEnterName} levelId={levelId} />

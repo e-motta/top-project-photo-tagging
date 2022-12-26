@@ -48,6 +48,8 @@ export interface Level {
 
 export type Levels = Level[];
 
+export type Orientation = 'X' | 'Y';
+
 // High scores table
 
 export interface Score {

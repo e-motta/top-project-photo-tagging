@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Orientation } from '../../types';
 import {
   setSelectedCharacterId,
   setShowGuessButton,
@@ -8,10 +9,14 @@ import { useFetchCharactersQuery } from './levels-slice';
 
 const GuessButton = ({
   style,
-  reverse,
+  orientation,
+  reverseX,
+  reverseY,
 }: {
   style: React.CSSProperties;
-  reverse: boolean;
+  orientation: Orientation;
+  reverseX: boolean;
+  reverseY: boolean;
 }) => {
   const showGuessButton = useAppSelector(
     (state) => state.guessButton.showGuessButton
@@ -49,9 +54,9 @@ const GuessButton = ({
     })
     .filter((character) => !character.found);
 
-  let content;
+  let characterButtons;
   if (charactersIsSuccess) {
-    content = notFoundCharacters?.map((character) => (
+    characterButtons = notFoundCharacters?.map((character) => (
       <button
         id={character.id}
         key={character.id}
@@ -68,34 +73,70 @@ const GuessButton = ({
     ));
   }
 
-  return (
-    <div className={showGuessButton ? '' : 'hidden'}>
-      {reverse ? (
-        <div className="absolute w-[0]" style={style}>
-          <div className="relative">
-            <div
-              style={{
-                left: notFoundCharacters
-                  ? `-${8 + notFoundCharacters.length * 56}px`
-                  : '-16px',
-              }}
-              className="absolute flex flex-row-reverse gap-4"
-            >
-              <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-              <div className="flex gap-2">{content}</div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="absolute w-[280px]" style={style}>
-          <div className="flex gap-4">
-            <div className="h-12 w-12 border-4 border-dashed border-black"></div>
-            <div className="flex gap-2">{content}</div>
-          </div>
-        </div>
-      )}
+  const orientationXnormal = (
+    <div className="absolute w-[280px]" style={style}>
+      <div className="flex gap-4">
+        <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+        <div className="flex gap-2">{characterButtons}</div>
+      </div>
     </div>
   );
+
+  const orientationXreverse = (
+    <div className="absolute w-[0]" style={style}>
+      <div className="relative">
+        <div
+          style={{
+            left: notFoundCharacters
+              ? `-${8 + notFoundCharacters.length * 56}px`
+              : '-16px',
+          }}
+          className="absolute flex flex-row-reverse gap-4"
+        >
+          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+          <div className="flex gap-2">{characterButtons}</div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const orientationYnormal = (
+    <div className="absolute" style={style}>
+      <div className="flex flex-col gap-4">
+        <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+        <div className="flex flex-col items-start gap-2">
+          {characterButtons}
+        </div>
+      </div>
+    </div>
+  );
+
+  const orientationYreverse = (
+    <div className="absolute w-[0]" style={style}>
+      <div className="relative">
+        <div
+          style={{
+            top: notFoundCharacters
+              ? `-${8 + notFoundCharacters.length * 56}px`
+              : '-16px',
+          }}
+          className="absolute flex flex-col-reverse gap-4"
+        >
+          <div className="h-12 w-12 border-4 border-dashed border-black"></div>
+          <div className="flex flex-col gap-2">{characterButtons}</div>
+        </div>
+      </div>
+    </div>
+  );
+
+  let content;
+  if (orientation === 'X') {
+    content = reverseX ? orientationXreverse : orientationXnormal;
+  } else {
+    content = reverseY ? orientationYreverse : orientationYnormal;
+  }
+
+  return <div className={showGuessButton ? '' : 'hidden'}>{content}</div>;
 };
 
 export default GuessButton;
