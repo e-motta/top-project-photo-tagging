@@ -5,20 +5,24 @@ import { foundCharactersSlice } from '../features/levels/found-characters-slice'
 import { guessButtonSlice } from '../features/levels/guess-button-slice';
 import { timerSlice } from '../features/timer/timer-slice';
 
-export const store = configureStore({
-  reducer: {
-    [levelsApi.reducerPath]: levelsApi.reducer,
-    [scoresApi.reducerPath]: scoresApi.reducer,
-    foundCharacters: foundCharactersSlice.reducer,
-    guessButton: guessButtonSlice.reducer,
-    timer: timerSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware()
-      .concat(levelsApi.middleware)
-      .concat(scoresApi.middleware);
-  },
-});
+export const setupStore = () =>
+  configureStore({
+    reducer: {
+      [levelsApi.reducerPath]: levelsApi.reducer,
+      [scoresApi.reducerPath]: scoresApi.reducer,
+      foundCharacters: foundCharactersSlice.reducer,
+      guessButton: guessButtonSlice.reducer,
+      timer: timerSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware()
+        .concat(levelsApi.middleware)
+        .concat(scoresApi.middleware);
+    },
+  });
 
+export const store = setupStore();
+
+export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

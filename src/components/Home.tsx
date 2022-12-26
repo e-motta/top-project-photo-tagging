@@ -5,6 +5,7 @@ import Spinner from './Spinner';
 
 const Home = () => {
   const { data, isLoading, isError, error } = useFetchLevelsQuery();
+  console.log(data);
 
   if (isError) {
     console.error(error);
