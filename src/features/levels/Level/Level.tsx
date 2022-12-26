@@ -96,7 +96,6 @@ const Level = () => {
     setClickPositionOnImage(
       imageHorizontalScroll ? [imageHorizontalScroll, y] : [x, y]
     );
-    console.log(imageHorizontalScroll, y);
   };
 
   useEffect(() => {
