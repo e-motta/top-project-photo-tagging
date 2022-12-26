@@ -20,12 +20,11 @@ const Header = () => {
           </Link>
         </div>
         <div>
-          <button
-            type="button"
-            className="text-xl transition-all duration-300 hover:scale-105 sm:text-2xl"
-          >
-            High scores
-          </button>
+          <Link to="high-scores">
+            <div className="text-xl transition-all duration-300 hover:scale-105 sm:text-2xl">
+              High scores
+            </div>
+          </Link>
         </div>
       </div>
     </header>

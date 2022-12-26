@@ -5,7 +5,6 @@ import {
   doc,
   updateDoc,
   getDocs,
-  setDoc,
 } from 'firebase/firestore';
 import {} from 'firebase/firestore/dist/functions';
 import { firestore } from '../../firebase';
@@ -67,6 +66,7 @@ export const scoresApi = createApi({
           return { error: error.message };
         }
       },
+      invalidatesTags: ['Score'],
     }),
   }),
 });

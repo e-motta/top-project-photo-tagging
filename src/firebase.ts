@@ -1,17 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  limit,
-  onSnapshot,
-  setDoc,
-  updateDoc,
-  doc,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 
 const app = initializeApp({
   apiKey: 'AIzaSyAs0DKIDTOvItk5kZrCdOEWT2kgwgKFl3c',

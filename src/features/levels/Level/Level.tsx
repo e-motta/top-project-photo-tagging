@@ -18,7 +18,10 @@ import LevelScore from '../LevelScore';
 import { Position } from '../../../types';
 import { useGameOver, useGameRound } from './useGame';
 import { setDelayedHintMessage } from '../helper';
-import EnterName from '../../score-table/EnterName';
+import EnterName from '../../scores/EnterName';
+import { useFetchHighScoresTableByLevelIdQuery } from '../../scores/scores-slice';
+import { getElapsedTime } from '../../timer/helper';
+import BackHome from '../../../components/BackHome';
 
 const Level = () => {
   const { levelId } = useParams();
@@ -29,6 +32,8 @@ const Level = () => {
   // Redux
   const { data, isLoading, isSuccess, isError, error } =
     useFetchSingleLevelQuery(levelId);
+
+  const { data: scoreData } = useFetchHighScoresTableByLevelIdQuery(levelId);
 
   const dispatch = useAppDispatch();
 
@@ -43,7 +48,7 @@ const Level = () => {
   const [hintMessage, setHintMessage] = useState('');
   const [showHint, setShowHint] = useState(false);
   const [showEnterName, setShowEnterName] = useState(false);
-
+  const [showBackHome, setShowBackHome] = useState(false);
   const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
     -1, -1,
   ]);
@@ -133,9 +138,17 @@ const Level = () => {
   });
 
   const gameover = useGameOver();
+  const startTime = useAppSelector((state) => state.timer.start);
+  const stopTime = useAppSelector((state) => state.timer.stop);
+  const time = getElapsedTime(startTime, stopTime);
+  const top5 = scoreData?.scores?.at(4)?.time;
   useEffect(() => {
-    if (gameover) {
+    if (gameover && top5 && time < top5) {
       setShowEnterName(true);
+    } else if (gameover && top5 === undefined) {
+      setShowEnterName(true);
+    } else if (gameover) {
+      setShowBackHome(true);
     }
   }, [gameover]);
 
@@ -177,6 +190,7 @@ const Level = () => {
           <LevelScore />
           <Hint show={showHint} message={hintMessage} />
           <EnterName show={showEnterName} levelId={levelId} />
+          <BackHome show={showBackHome} />
         </div>
       </div>
     </>

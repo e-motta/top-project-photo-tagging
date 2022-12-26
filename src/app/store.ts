@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { levelsApi } from '../features/levels/levels-slice';
+import { scoresApi } from '../features/scores/scores-slice';
 import { foundCharactersSlice } from '../features/levels/found-characters-slice';
 import { guessButtonSlice } from '../features/levels/guess-button-slice';
 import { timerSlice } from '../features/timer/timer-slice';
-import { scoresApi } from '../features/scores/scores-slice';
 
 export const store = configureStore({
   reducer: {

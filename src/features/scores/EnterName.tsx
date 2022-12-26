@@ -4,7 +4,7 @@ import { useAppSelector } from '../../app/hooks';
 import {
   useFetchHighScoresTableByLevelIdQuery,
   useSetNewHighScoreMutation,
-} from '../scores/scores-slice';
+} from './scores-slice';
 import { getElapsedTime } from '../timer/helper';
 
 const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
@@ -28,10 +28,11 @@ const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
     // handle state changes
     setNewHighScore({
       scoresTableId,
-      newHighScore: { name, time },
+      newHighScore: { id: Math.random().toString(16).slice(2), name, time },
     });
     setName('');
     // navigate to high scores page
+    navigate('/high-scores');
   };
 
   return (
@@ -40,8 +41,9 @@ const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
         <form
           id="nameForm"
           action="#"
-          className="absolute left-1/2 top-44 w-auto -translate-x-1/2 rounded-xl bg-white p-10"
+          className="absolute left-1/2 top-44 flex w-auto -translate-x-1/2 flex-col items-center rounded-xl bg-white p-10"
         >
+          <span>Congratulations, you found all the characters!</span>
           <fieldset className="flex flex-col gap-10">
             <legend className="p-4 pb-12 text-xl font-bold">
               Add your time to the high scores table
@@ -74,7 +76,7 @@ const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
                 className="rounded-md bg-red-600 px-5 py-1 text-white"
                 onClick={onCancel}
               >
-                Cancel
+                Back home
               </button>
             </div>
           </fieldset>

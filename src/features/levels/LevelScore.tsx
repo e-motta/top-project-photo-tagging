@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
-
 import { useFetchCharactersQuery } from './levels-slice';
 
 const LevelScore = () => {

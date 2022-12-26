@@ -3,7 +3,6 @@ import { CharactersPosition } from '../../../types';
 import { useFetchSingleLevelQuery } from '../levels-slice';
 import { resetScore, setFoundCharacter } from '../found-characters-slice';
 import { stoptimer } from '../../timer/timer-slice';
-import { setSelectedCharacterId } from '../guess-button-slice';
 
 const useGameRound = async ({
   levelId,
