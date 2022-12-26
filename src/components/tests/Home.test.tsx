@@ -114,5 +114,5 @@ afterAll(() => server.close());
 test('test', async () => {
   renderWithProviders(<Home />);
 
-  await expect(screen.getByText(/beach/i)).toBeInTheDocument();
+  expect(screen.getByText(/beach/i)).toBeInTheDocument();
 });
