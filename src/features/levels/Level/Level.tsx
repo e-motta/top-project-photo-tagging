@@ -87,10 +87,12 @@ const Level = () => {
     const y = e.clientY + window.scrollY;
 
     setClickPositionOnScreen([x, y]);
-
+    console.log(navigator.userAgent);
     let imageHorizontalScroll;
     if (mainLevelImage.current)
-      imageHorizontalScroll = navigator.userAgent.includes('Chrome')
+      imageHorizontalScroll = Boolean(
+        navigator.userAgent.match(/Chrome|iPhone|iPad/g)
+      )
         ? x - mainLevelImage.current.x / 2
         : x - mainLevelImage.current.x;
     setClickPositionOnImage(
