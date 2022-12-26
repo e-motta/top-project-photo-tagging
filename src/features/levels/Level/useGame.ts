@@ -39,7 +39,7 @@ const useGameOver = () => {
   const dispatch = useAppDispatch();
 
   const allCharacters = useAppSelector((state) => state.foundCharacters);
-  const gameover = allCharacters.some((character) => character.found === true);
+  const gameover = allCharacters.every((character) => character.found === true);
 
   if (gameover)
     setTimeout(() => {
