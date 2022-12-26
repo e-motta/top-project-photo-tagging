@@ -43,10 +43,12 @@ const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
           action="#"
           className="absolute left-1/2 top-44 flex w-auto -translate-x-1/2 flex-col items-center rounded-xl bg-white p-10"
         >
-          <span>Congratulations, you found all the characters!</span>
+          <span className="text-xl font-bold">
+            Congratulations, you found all the characters!
+          </span>
           <fieldset className="flex flex-col gap-10">
-            <legend className="p-4 pb-12 text-xl font-bold">
-              Add your time to the high scores table
+            <legend className="p-4 pb-12 text-xl">
+              Add your time to the high scores table:
             </legend>
             <div className="flex w-auto items-center justify-center gap-4">
               <label htmlFor="name" className="relative text-gray-600">

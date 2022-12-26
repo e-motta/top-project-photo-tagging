@@ -9,7 +9,7 @@ const Table = ({
   scores: Score[];
 }) => {
   return (
-    <div className="relative overflow-x-auto border border-red-400 shadow-md sm:rounded-lg md:w-[650px]">
+    <div className="relative cursor-default overflow-x-auto border border-red-400 shadow-md sm:rounded-lg md:w-[650px]">
       <h2 className="p-1 pl-5 text-xl font-bold text-blue-500">
         Top 5 - {levelName}
       </h2>
@@ -31,7 +31,7 @@ const Table = ({
               return (
                 <tr
                   key={score.id}
-                  className="border-b border-red-400 bg-red-400"
+                  className="border-b border-red-400 bg-red-400 hover:bg-red-500"
                 >
                   <th
                     scope="row"
@@ -51,7 +51,7 @@ const Table = ({
           ) : (
             <tr className="border-b border-red-400 bg-red-400">
               <td className="py-4 px-6">No scores yet!</td>
-              <td></td>
+              <td className="w-[150px]"></td>
             </tr>
           )}
         </tbody>
