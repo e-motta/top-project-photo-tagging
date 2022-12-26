@@ -7,7 +7,7 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        <div className="min-w-[400px]">
+        <div>
           <Outlet />
         </div>
       </main>
