@@ -92,7 +92,7 @@ const Level = () => {
     } else {
       dispatch(setReverseXGuessButton(false));
     }
-    console.log(window);
+
     if (window.innerHeight + window.scrollY - y < 400) {
       dispatch(setReverseYGuessButton(true));
     } else {
