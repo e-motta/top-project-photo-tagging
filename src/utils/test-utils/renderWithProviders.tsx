@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { Route, Routes, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import { setupStore } from '../../app/store';
 import type { AppStore } from '../../app/store';
