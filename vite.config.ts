@@ -10,4 +10,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/utils/test-utils/setup.js',
   },
+  server: {
+    hmr: {
+      host: 'localhost',
+    },
+  },
 });

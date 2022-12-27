@@ -136,7 +136,14 @@ const GuessButton = ({
     content = reverseY ? orientationYreverse : orientationYnormal;
   }
 
-  return <div className={showGuessButton ? '' : 'hidden'}>{content}</div>;
+  return (
+    <div
+      data-testid={'guess-button'}
+      className={showGuessButton ? '' : 'hidden'}
+    >
+      {content}
+    </div>
+  );
 };
 
 export default GuessButton;

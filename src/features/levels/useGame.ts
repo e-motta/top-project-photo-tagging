@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { CharactersPosition } from '../../../types';
-import { useFetchSingleLevelQuery } from '../levels-slice';
-import { resetScore, setFoundCharacter } from '../found-characters-slice';
-import { stoptimer } from '../../timer/timer-slice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { CharactersPosition } from '../../types';
+import { useFetchSingleLevelQuery } from './levels-slice';
+import { resetScore, setFoundCharacter } from './found-characters-slice';
+import { stoptimer } from '../timer/timer-slice';
 
 const useGameRound = async ({
   levelId,

@@ -35,6 +35,7 @@ const Timer = () => {
 
   return (
     <div
+      data-testid="timer"
       className="fixed top-32 left-1/2 flex w-28 -translate-x-1/2 cursor-default 
       justify-center rounded-full bg-red-600 py-2 text-white opacity-70
       hover:opacity-100"

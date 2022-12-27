@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from './components/Home';
 import Layout from './components/Layout';
-import Level from './features/levels/Level/Level';
+import Level from './features/levels/Level';
 import HighScores from './features/scores/HighScores';
 
 function App() {
