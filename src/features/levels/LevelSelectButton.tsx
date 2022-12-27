@@ -21,9 +21,9 @@ const SelectLevel = ({
         group-hover:hidden"
       />
       <span
-        className="absolute bottom-10 left-10 text-8xl 
-        font-extrabold text-red-700 transition-all duration-700
-        group-hover:text-red-900"
+        className="absolute bottom-10 left-10 text-7xl font-extrabold 
+        text-red-700 transition-all duration-700 group-hover:text-red-900
+        sm:text-8xl"
       >
         {levelName}
       </span>
