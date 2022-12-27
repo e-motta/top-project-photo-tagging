@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Orientation } from '../../types';
+import { Orientation } from '../../../types';
 
 const guessButtonInitialState = {
   showGuessButton: false,

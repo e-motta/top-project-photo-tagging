@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../../app/hooks';
 import {
   useFetchHighScoresTableByLevelIdQuery,
   useSetNewHighScoreMutation,
-} from './scores-slice';
-import { getElapsedTime } from '../timer/helper';
+} from '../scores-slice';
+import { getElapsedTime } from '../../timer/helper';
 
 const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
   const navigate = useNavigate();

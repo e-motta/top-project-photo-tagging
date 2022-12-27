@@ -1,5 +1,5 @@
-import { Score } from '../../types';
-import { splitTime } from '../timer/helper';
+import { Score } from '../../../types';
+import { splitTime } from '../../timer/helper';
 
 const Table = ({
   levelName,

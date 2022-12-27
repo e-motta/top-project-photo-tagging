@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppSelector } from '../../app/hooks';
-import { useFetchCharactersQuery } from './levels-slice';
+import { useAppSelector } from '../../../app/hooks';
+import { useFetchCharactersQuery } from '../slices/levels-slice';
 
 const LevelScore = () => {
   const [hideScore, setHideScore] = useState(false);

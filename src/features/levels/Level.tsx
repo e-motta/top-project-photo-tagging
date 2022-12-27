@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 
 import GuessButton from './GuessButton';
-import Hint from '../../components/Hint';
+import Hint from '../../components/ui/Hint';
 import Timer from '../timer/Timer';
-import Spinner from '../../components/Spinner';
+import Spinner from '../../components/ui/Spinner';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useFetchSingleLevelQuery } from './levels-slice';
-import { resetScore } from './found-characters-slice';
+import { useFetchSingleLevelQuery } from './slices/levels-slice';
+import { resetScore } from './slices/found-characters-slice';
 import {
   setGuessButtonStyle,
   setReverseXGuessButton,
@@ -15,15 +15,15 @@ import {
   setSelectedCharacterId,
   setShowGuessButton,
   setGuessButtonOrientation,
-} from './guess-button-slice';
-import LevelScore from './LevelScore';
+} from './slices/guess-button-slice';
+import LevelScore from './components/LevelScore';
 import { Position } from '../../types';
 import { useGameOver, useGameRound } from './useGame';
 import { setDelayedHintMessage } from './helper';
-import EnterName from '../scores/EnterName';
+import EnterName from '../scores/components/EnterName';
 import { useFetchHighScoresTableByLevelIdQuery } from '../scores/scores-slice';
 import { getElapsedTime } from '../timer/helper';
-import BackHome from '../../components/BackHome';
+import BackHome from '../../components/ui/BackHome';
 
 const Level = () => {
   const { levelId } = useParams();

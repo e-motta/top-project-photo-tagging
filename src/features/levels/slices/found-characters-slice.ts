@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FoundCharacter, FoundCharacters } from '../../types';
+import { FoundCharacter, FoundCharacters } from '../../../types';
 
 const foundCharactersInitialState: FoundCharacters = [
   { id: '15hg3If0JJaa3gXzfpow', found: false },
