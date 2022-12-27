@@ -33,6 +33,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // Unmount React trees that were mounted with render
+  // Unmounts React trees that were mounted with render
   cleanup();
 });
