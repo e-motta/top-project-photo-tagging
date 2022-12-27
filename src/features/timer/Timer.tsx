@@ -16,7 +16,7 @@ const Timer = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    return () => dispatchResetTimerCallback();
+    dispatchResetTimerCallback();
   }, []);
 
   useEffect(() => {
