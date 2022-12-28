@@ -28,8 +28,7 @@ const Home = () => {
             placed there. You win when you find all the characters!
           </p>
           <p>
-            If you qualify, your score will be recorded in the high scores
-            table.
+            If you qualify, your time will be recorded in the high scores table.
           </p>
         </div>
       </section>
