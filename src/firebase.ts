@@ -12,9 +12,21 @@ const app = initializeApp({
   measurementId: 'G-B2S5CCM381',
 });
 
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LeQzbEjAAAAAO3AYUlEtNtl9a_zQ1Is2tD-DLTs'),
-  isTokenAutoRefreshEnabled: true,
-});
+if (import.meta.env.DEV) {
+  self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
+
+const isNode =
+  typeof process !== 'undefined' &&
+  process.versions != null &&
+  process.versions.node != null;
+
+if (!isNode || import.meta.env.PROD)
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(
+      '6LeQzbEjAAAAAO3AYUlEtNtl9a_zQ1Is2tD-DLTs'
+    ),
+    isTokenAutoRefreshEnabled: true,
+  });
 
 export const firestore = getFirestore(app);
