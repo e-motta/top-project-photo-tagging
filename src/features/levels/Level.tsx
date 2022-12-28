@@ -109,12 +109,10 @@ const Level = () => {
     setClickPositionOnScreen([x, y]);
 
     let imageHorizontalScroll;
+
     if (mainLevelImage.current)
-      imageHorizontalScroll = Boolean(
-        navigator.userAgent.match(/Chrome|iPhone|iPad/g)
-      )
-        ? x - mainLevelImage.current.x / 2
-        : x - mainLevelImage.current.x;
+      imageHorizontalScroll =
+        x - mainLevelImage.current.getClientRects()[0].left;
     setClickPositionOnImage(
       imageHorizontalScroll ? [imageHorizontalScroll, y] : [x, y]
     );
