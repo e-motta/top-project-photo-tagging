@@ -24,8 +24,9 @@ const Home = () => {
           </h1>
           <p>
             After you select a level, click on the screen and choose a
-            character. If you are right about their location, a marker will be
-            placed there. You win when you find all the characters!
+            character. If you are right about their location, the character's
+            avatar to the right will become green. You win when you find all the
+            characters!
           </p>
           <p>
             If you qualify, your time will be recorded in the high scores table.
