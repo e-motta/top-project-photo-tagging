@@ -9,21 +9,18 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useFetchSingleLevelQuery } from './slices/levels-slice';
 import { resetScore } from './slices/found-characters-slice';
 import {
-  setGuessButtonStyle,
-  setReverseXGuessButton,
-  setReverseYGuessButton,
   setSelectedCharacterId,
   setShowGuessButton,
-  setGuessButtonOrientation,
 } from './slices/guess-button-slice';
 import LevelScore from './components/LevelScore';
 import { Position } from '../../types';
-import { useGameOver, useGameRound } from './useGame';
+import { useGameover, useGameRound } from './useGame';
 import { setDelayedHintMessage } from './helper';
 import EnterName from '../scores/components/EnterName';
 import { useFetchHighScoresTableByLevelIdQuery } from '../scores/scores-slice';
 import { getElapsedTime } from '../timer/helper';
 import BackHome from '../../components/ui/BackHome';
+import { useGuessButton } from './useGuessButton';
 
 const Level = () => {
   const { levelId } = useParams();
@@ -65,42 +62,8 @@ const Level = () => {
   ]);
 
   // Event handlers
-  const handleGuessButton = () => {
-    const headerHeight = document.querySelector('#header')?.clientHeight;
-
-    const x = clickPositionOnImage[0] - 24;
-    const y = headerHeight
-      ? clickPositionOnImage[1] - 24 - headerHeight
-      : clickPositionOnImage[1] - 24;
-
-    dispatch(
-      setGuessButtonStyle({
-        left: `${x}px`,
-        top: `${y}px`,
-      })
-    );
-
-    // Avoid overlapping with Score component, rendering off screen
-    if (window.innerWidth < 640) {
-      dispatch(setGuessButtonOrientation('Y'));
-    } else {
-      dispatch(setGuessButtonOrientation('X'));
-    }
-
-    if (window.innerWidth - x < 400) {
-      dispatch(setReverseXGuessButton(true));
-    } else {
-      dispatch(setReverseXGuessButton(false));
-    }
-
-    if (window.innerHeight + window.scrollY - y < 400) {
-      dispatch(setReverseYGuessButton(true));
-    } else {
-      dispatch(setReverseYGuessButton(false));
-    }
-  };
-
   const onMouseClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    dispatch(setSelectedCharacterId(null));
     dispatch(setShowGuessButton(true));
 
     const x = e.clientX;
@@ -118,13 +81,7 @@ const Level = () => {
     );
   };
 
-  useEffect(() => {
-    handleGuessButton();
-  }, [clickPositionOnScreen]);
-
-  useEffect(() => {
-    dispatch(setSelectedCharacterId(null));
-  });
+  useGuessButton(clickPositionOnScreen, clickPositionOnImage);
 
   // Hint messages
   useEffect(() => {
@@ -152,11 +109,11 @@ const Level = () => {
   }, []);
 
   useGameRound({
-    levelId,
+    levelData: data,
     clickPosition: clickPositionOnImage,
   });
 
-  const gameover = useGameOver();
+  const gameover = useGameover();
   const startTime = useAppSelector((state) => state.timer.start);
   const stopTime = useAppSelector((state) => state.timer.stop);
   const time = getElapsedTime(startTime, stopTime);

@@ -1,14 +1,15 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CharactersPosition } from '../../types';
+import { CharactersPosition, Level } from '../../types';
 import { useFetchSingleLevelQuery } from './slices/levels-slice';
 import { resetScore, setFoundCharacter } from './slices/found-characters-slice';
 import { stoptimer } from '../timer/timer-slice';
+import { useEffect } from 'react';
 
 const useGameRound = async ({
-  levelId,
+  levelData,
   clickPosition,
 }: {
-  levelId: string;
+  levelData: Level | undefined;
   clickPosition: [number, number];
 }) => {
   const dispatch = useAppDispatch();
@@ -16,38 +17,35 @@ const useGameRound = async ({
     (state) => state.guessButton.selectedCharacterId
   );
 
-  const { data, isSuccess, isError, error } = useFetchSingleLevelQuery(levelId);
-
-  if (isError) console.error(error);
-
-  if (isSuccess) {
-    data.characters_positions.forEach((charPosition: CharactersPosition) => {
-      if (
-        Math.abs(charPosition.position[0] - clickPosition[0]) < 24 &&
-        Math.abs(charPosition.position[1] - clickPosition[1]) < 24 &&
-        selectedCharacterId === charPosition.character_id
-      ) {
-        setTimeout(() => {
+  useEffect(() => {
+    levelData?.characters_positions.forEach(
+      (charPosition: CharactersPosition) => {
+        if (
+          Math.abs(charPosition.position[0] - clickPosition[0]) < 24 &&
+          Math.abs(charPosition.position[1] - clickPosition[1]) < 24 &&
+          selectedCharacterId === charPosition.character_id
+        ) {
           dispatch(setFoundCharacter(charPosition.character_id));
-        }, 0);
+        }
       }
-    });
-  }
+    );
+  }, [selectedCharacterId]);
 };
 
-const useGameOver = () => {
+const useGameover = () => {
   const dispatch = useAppDispatch();
 
   const allCharacters = useAppSelector((state) => state.foundCharacters);
   const gameover = allCharacters.every((character) => character.found === true);
 
-  if (gameover)
-    setTimeout(() => {
+  useEffect(() => {
+    if (gameover) {
       dispatch(resetScore());
       dispatch(stoptimer());
-    }, 0);
+    }
+  });
 
   return gameover;
 };
 
-export { useGameRound, useGameOver };
+export { useGameRound, useGameover };
