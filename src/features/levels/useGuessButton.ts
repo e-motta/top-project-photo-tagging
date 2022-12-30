@@ -8,10 +8,7 @@ import {
   setReverseYGuessButton,
 } from './slices/guess-button-slice';
 
-export const useGuessButton = (
-  clickPositionOnScreen: Position,
-  clickPositionOnImage: Position
-) => {
+export const useGuessButton = (clickPositionOnImage: Position) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,5 +44,5 @@ export const useGuessButton = (
     } else {
       dispatch(setReverseYGuessButton(false));
     }
-  }, [clickPositionOnScreen]);
+  }, [clickPositionOnImage]);
 };

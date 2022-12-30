@@ -54,9 +54,6 @@ const Level = () => {
   const [showHint, setShowHint] = useState(false);
   const [showEnterName, setShowEnterName] = useState(false);
   const [showBackHome, setShowBackHome] = useState(false);
-  const [clickPositionOnScreen, setClickPositionOnScreen] = useState<Position>([
-    -9999, -9999,
-  ]);
   const [clickPositionOnImage, setClickPositionOnImage] = useState<Position>([
     -9999, -9999,
   ]);
@@ -69,8 +66,6 @@ const Level = () => {
     const x = e.clientX;
     const y = e.clientY + window.scrollY;
 
-    setClickPositionOnScreen([x, y]);
-
     let imageHorizontalScroll;
 
     if (mainLevelImage.current)
@@ -81,11 +76,12 @@ const Level = () => {
     );
   };
 
-  useGuessButton(clickPositionOnScreen, clickPositionOnImage);
+  useGuessButton(clickPositionOnImage);
 
   // Hint messages
   useEffect(() => {
     if (
+      isSuccess &&
       mainLevelImage.current &&
       mainLevelImage.current.width > window.innerWidth
     ) {
@@ -116,9 +112,9 @@ const Level = () => {
   const gameover = useGameover();
   const startTime = useAppSelector((state) => state.timer.start);
   const stopTime = useAppSelector((state) => state.timer.stop);
-  const time = getElapsedTime(startTime, stopTime);
-  const top5 = scoreData?.scores?.at(4)?.time;
   useEffect(() => {
+    const time = getElapsedTime(startTime, stopTime);
+    const top5 = scoreData?.scores?.at(4)?.time;
     if (gameover && top5 && time < top5) {
       setShowEnterName(true);
     } else if (gameover && top5 === undefined) {

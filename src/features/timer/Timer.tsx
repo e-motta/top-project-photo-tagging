@@ -25,11 +25,11 @@ const Timer = () => {
     }, 10);
     if (stop) clearInterval(interval);
     return () => clearInterval(interval);
-  }, [stop]);
+  }, [start, stop]);
 
   useEffect(() => {
     setTime(getElapsedTime(start, new Date().getTime()));
-  }, [time]);
+  }, [start]);
 
   const { hh, mm, ss } = splitTime(time);
 
