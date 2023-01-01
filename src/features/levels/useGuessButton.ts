@@ -6,7 +6,7 @@ import {
   setGuessButtonStyle,
   setReverseXGuessButton,
   setReverseYGuessButton,
-} from './slices/guess-button-slice';
+} from './slices/guessButtonSlice';
 
 export const useGuessButton = (clickPositionOnImage: Position) => {
   const dispatch = useDispatch();

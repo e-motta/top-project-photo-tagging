@@ -1,4 +1,3 @@
-import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import {
   arrayUnion,
   collection,
@@ -7,14 +6,11 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import {} from 'firebase/firestore/dist/functions';
+import { firestoreApi } from '../../app/firestoreApi';
 import { firestore } from '../../firebase';
-
 import { ScoresTable, ScoresTables } from '../../types';
 
-export const scoresApi = createApi({
-  reducerPath: 'scores',
-  baseQuery: fakeBaseQuery(),
-  tagTypes: ['Score'],
+export const scoresApi = firestoreApi.injectEndpoints({
   endpoints: (builder) => ({
     fetchHighScoresTables: builder.query<ScoresTables, void>({
       async queryFn() {

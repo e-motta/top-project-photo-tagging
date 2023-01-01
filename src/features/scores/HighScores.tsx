@@ -1,6 +1,6 @@
 import Spinner from '../../components/ui/Spinner';
-import { useFetchLevelsQuery } from '../levels/slices/levels-slice';
-import { useFetchHighScoresTablesQuery } from './scores-slice';
+import { useFetchLevelsQuery } from '../levels/slices/levelsSlice';
+import { useFetchHighScoresTablesQuery } from './scoresSlice';
 import Table from './components/Table';
 
 const HighScores = () => {

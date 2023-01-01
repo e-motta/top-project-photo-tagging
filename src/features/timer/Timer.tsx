@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getElapsedTime, splitTime } from './helper';
-import { resetTimer } from './timer-slice';
+import { resetTimer } from './timerSlice';
 
 const Timer = () => {
   const [time, setTime] = useState(0);

@@ -1,13 +1,10 @@
-import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { firestoreApi } from '../../../app/firestoreApi';
 
 import { firestore } from '../../../firebase';
 import { Character, Characters, Level, Levels } from '../../../types';
 
-export const levelsApi = createApi({
-  reducerPath: 'levels',
-  baseQuery: fakeBaseQuery(),
-  tagTypes: ['Level', 'Character'],
+export const levelsApi = firestoreApi.injectEndpoints({
   endpoints: (builder) => ({
     fetchLevels: builder.query<Levels, void>({
       async queryFn() {

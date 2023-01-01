@@ -4,8 +4,8 @@ import { Orientation } from '../../types';
 import {
   setSelectedCharacterId,
   setShowGuessButton,
-} from './slices/guess-button-slice';
-import { useFetchCharactersQuery } from './slices/levels-slice';
+} from './slices/guessButtonSlice';
+import { useFetchCharactersQuery } from './slices/levelsSlice';
 
 const GuessButton = ({
   style,

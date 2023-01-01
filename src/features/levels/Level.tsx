@@ -6,18 +6,18 @@ import Hint from '../../components/ui/Hint';
 import Timer from '../timer/Timer';
 import Spinner from '../../components/ui/Spinner';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useFetchSingleLevelQuery } from './slices/levels-slice';
-import { resetScore } from './slices/found-characters-slice';
+import { useFetchSingleLevelQuery } from './slices/levelsSlice';
+import { resetScore } from './slices/foundCharactersSlice';
 import {
   setSelectedCharacterId,
   setShowGuessButton,
-} from './slices/guess-button-slice';
+} from './slices/guessButtonSlice';
 import LevelScore from './components/LevelScore';
 import { Position } from '../../types';
 import { useGameover, useGameRound } from './useGame';
 import { setDelayedHintMessage } from './helper';
 import EnterName from '../scores/components/EnterName';
-import { useFetchHighScoresTableByLevelIdQuery } from '../scores/scores-slice';
+import { useFetchHighScoresTableByLevelIdQuery } from '../scores/scoresSlice';
 import { getElapsedTime } from '../timer/helper';
 import BackHome from '../../components/ui/BackHome';
 import { useGuessButton } from './useGuessButton';

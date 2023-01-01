@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../app/hooks';
 import {
   useFetchHighScoresTableByLevelIdQuery,
   useSetNewHighScoreMutation,
-} from '../scores-slice';
+} from '../scoresSlice';
 import { getElapsedTime } from '../../timer/helper';
 
 const EnterName = ({ show, levelId }: { show: boolean; levelId: string }) => {
