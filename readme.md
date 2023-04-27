@@ -1,4 +1,4 @@
-# TOP Project: Shopping Cart
+# TOP Project: Where's Waldo (A Photo Tagging App)
 
 ![](readme_content/example1.png)
 ![](readme_content/example2.png)
